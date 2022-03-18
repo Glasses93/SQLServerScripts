@@ -1,0 +1,82 @@
+
+--DROP TABLE sandbox.dbo.SJ_ONSPostcodeDirectory_202008_2;
+--CREATE TABLE sandbox.dbo.SJ_ONSPostcodeDirectory_202008_2 (
+--	 objectid	integer			NOT NULL
+--	,X			float(53)			NULL
+--	,Y			float(53)			NULL
+--	,pcd		char(7)			NOT NULL
+--	,pcd2		char(8)			NOT NULL
+--	,pcds		varchar(15)		NOT NULL
+--	,ctry		char(9)			NOT NULL
+--	,rgn		char(9)				NULL
+--	,oslaua		char(9)				NULL
+--	,dointr		date			NOT NULL
+--	,doterm		date				NULL
+--	,usertype	bit				NOT NULL
+--	,osgrdind	tinyint			NOT NULL
+--	,ur01ind	char(1)				NULL
+--    ,lat		decimal(9, 7)		NULL
+--    ,long		decimal(9, 6)		NULL
+--	,imd		integer			NOT NULL
+--	,Coordinate	geography			NULL
+
+--	,Country	AS
+--		CONVERT(varchar(16), CASE LEFT(ctry, 1)
+--			WHEN 'E' THEN 'England'
+--			WHEN 'W' THEN 'Wales'
+--			WHEN 'S' THEN 'Scotland'
+--			WHEN 'N' THEN 'Northern Ireland'
+--			WHEN 'L' THEN 'Channel Islands'
+--			WHEN 'M' THEN 'Isle of Man'
+--		END)
+--	,ValidGeog	AS CONVERT(bit, Coordinate.STIsValid())
+--)
+--;
+
+--INSERT sandbox.dbo.SJ_ONSPostcodeDirectory_202008_2 WITH ( TABLOCK ) (
+--	 objectid
+--	,X
+--	,Y
+--	,pcd
+--	,pcd2
+--	,pcds
+--	,dointr
+--	,doterm
+--	,usertype
+--	,osgrdind
+--	,ctry
+--	,rgn
+--	,oslaua
+--	,ur01ind
+--	,lat	
+--	,long
+--	,imd
+--	,Coordinate
+--)
+--SELECT 
+--	 objectid
+--	,X
+--	,Y
+--	,pcd
+--	,pcd2
+--	,pcd
+--	,dointr = CONVERT(date, dointr + '01', 112)
+--	,doterm = CONVERT(date, doterm + '01', 112)
+--	,usertype
+--	,osgrdind
+--	,ctry
+--	,rgn
+--	,oslaua
+--	,ur01ind
+--	,lat	
+--	,long
+--	,imd
+--	,CASE WHEN X IS NOT NULL AND Y IS NOT NULL THEN geography::Point(Y, X, 4326) END
+--FROM sandbox.dbo.SJ_ONSPostcodeDirectory_202008
+--;
+
+--ALTER TABLE sandbox.dbo.SJ_ONSPostcodeDirectory_202008_2 ADD CONSTRAINT PK__SJ_ONSPostcodeDirectory_202008__pcd PRIMARY KEY CLUSTERED ( pcd ASC );
+
+--CREATE SPATIAL INDEX SIX__SJ_ONSPostcodeDirectory_202008__Coordinate
+--ON sandbox.dbo.SJ_ONSPostcodeDirectory_202008_2 (Coordinate)
+--;
